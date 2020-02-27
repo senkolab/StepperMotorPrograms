@@ -7,7 +7,7 @@ all_pins=[7,11,13,15,31,33,35,37]
 control_pins = [31,33,35,37]
 #control_pins = [7,11,13,15] #first set of gpio pins
 control_pins2 = [7,11,13,15] #second set of gpio pins
-#toapidsfoijadsf
+#toapidsf
 esttsd=515.000000 #estimated threesixtydegrees in units of full halfstep_seq runs
 #degreeto=sys.argv[1]
 
