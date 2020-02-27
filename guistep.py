@@ -57,7 +57,7 @@ def resetcb(pingroup):
   while checka==False:
     for halfstep in range(8):
       for pin in range(4):
-        GPIO.output(pingroup[pin], halfstep_seq_cw[halfstep][pin])
+        GPIO.output(pingroup[pin], halfstep_seq_ccw[halfstep][pin])
       time.sleep(0.001)
     holder.seek(0)
     holder.write(str(tickera))
@@ -70,7 +70,7 @@ def resetcb(pingroup):
   while checkb==False:
     for halfstep in range(8):
       for pin in range(4):
-        GPIO.output(pingroup[pin], halfstep_seq_ccw[halfstep][pin])
+        GPIO.output(pingroup[pin], halfstep_seq_cw[halfstep][pin])
       time.sleep(0.001)
     tickerb+=1
     if tickerb>=300:
