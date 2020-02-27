@@ -58,7 +58,7 @@ def resetcb():
     for halfstep in range(8):
       for pin in range(4):
         GPIO.output(control_pins[pin], halfstep_seq_cw[halfstep][pin])
-      time.sleep(0.01)
+      time.sleep(0.001)
     holder.seek(0)
     holder.write(str(tickera))
     tickera+=1
