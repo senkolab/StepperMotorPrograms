@@ -4,8 +4,7 @@ import sys
 import Tkinter as tk
 
 all_pins=[7,11,13,15,31,33,35,37]
-control_pins = [31,33,35,37]
-#control_pins = [7,11,13,15] #first set of gpio pins
+control_pins = [31,33,35,37] #first set of gpio pins
 control_pins2 = [7,11,13,15] #second set of gpio pins
 
 esttsd=515.000000 #estimated threesixtydegrees in units of full halfstep_seq runs
@@ -35,7 +34,6 @@ halfstep_seq_cw=[ #clockwise sequence
 ]
 
 def resetcb(pingroup):
-  print(pingroup)
   GPIO.setmode(GPIO.BOARD)
   
   for pin in pingroup:
@@ -46,28 +44,26 @@ def resetcb(pingroup):
   checkb=False #used to turn on/off
   tickera=0 #used to count number of units
   tickerb=0 #used to count number of units
-  storage=open("stor.txt","r")
+  storage=open("stor.txt","r")# not actually used
 
   start_pos=storage.read()
   storage.closed
   holder=open("stor.txt","w")
 
-  
-
-  while checka==False:
-    for halfstep in range(8):
-      for pin in range(4):
-        GPIO.output(pingroup[pin], halfstep_seq_ccw[halfstep][pin])
+  while checka==False:##this moves screw forward ##probably could've condensed this to one while loop but didn't have the motors to test and don't want to make changes without testing to make sure they don't break anything
+    for halfstep in range(8):#goes through each list of 8 lists.
+      for pin in range(4): # goes through each list of 4 pins, if pin is 1 activate, otherwise nothing
+        GPIO.output(pingroup[pin], halfstep_seq_ccw[halfstep][pin])#gpio output to pingroup[pin](7,11,13,15, etc) either a 1 or 0 according to halfstep_seq_ccw(1 or 0). Because control board is hooked up to 5V from Rpi a 1 sends 5V
       time.sleep(0.001)
     holder.seek(0)
     holder.write(str(tickera))
     tickera+=1
-    if tickera>300:
+    if tickera>300:#estimation of how far it needs to extend from how i have it set up, you might have to change this if you move the system around.
       print("Done forward")
       checka=True
   holder.close()
 
-  while checkb==False:
+  while checkb==False:#this moves screw backwards
     for halfstep in range(8):
       for pin in range(4):
         GPIO.output(pingroup[pin], halfstep_seq_cw[halfstep][pin])
@@ -78,12 +74,9 @@ def resetcb(pingroup):
       checkb=True
   GPIO.cleanup()
 
-
-
-
 top=tk.Tk()
-start=tk.Button(top,text="Press to Start",command=lambda : resetcb(control_pins))
-stop=tk.Button(top,text="Press to Stop",command=lambda : resetcb(control_pins2))
+start=tk.Button(top,text="Press to Start",command=lambda : resetcb(control_pins))#button to click to run command to click start button irl
+stop=tk.Button(top,text="Press to Stop",command=lambda : resetcb(control_pins2))# button to click to run command to click stop button irl
 start.pack()
 stop.pack()
 top.mainloop()
